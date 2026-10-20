@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday Ritu Suparna (Supuu)! 🎉 - Shinchan & Doraemon Surprise from Sufiyan</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Background Canvas for Confetti -->
+  <canvas id="confetti-canvas"></canvas>
+
+  <!-- Floating Balloons Container (Click to Pop!) -->
+  <div id="balloons-container" class="balloons-container"></div>
+
+  <!-- ========================================================
+       SHINCHAN'S MISCHIEVOUS GATEKEEPER OVERLAY (ENTRANCE)
+  ======================================================== -->
+  <!-- ========================================================
+       SHINCHAN & DORAEMON'S INTERACTIVE GATEKEEPER (FIRST PAGE)
+  ======================================================== -->
+  <div id="gatekeeper-overlay" class="gatekeeper-overlay">
+    <div class="gatekeeper-card">
+      <div class="badge-tag">VIP BIRTHDAY SECURITY 👮‍♂️</div>
+
+      <!-- DUO MASCOTS (SHINCHAN & DORAEMON) -->
+      <div class="duo-mascots-stage">
+        
+        <!-- Shinchan -->
+        <div class="mascot-item mascot-shinchan" id="mascot-shinchan" title="Tap Shinchan to hear him talk!">
+          <div class="mascot-speech-bubble-mini">Oi Oi Oi! 😜</div>
+          <div class="mascot-avatar-circle">
+            <img src="assets/shinchan_gatekeeper.jpg" alt="Shinchan Gatekeeper">
+          </div>
+          <div class="mascot-label-badge">Shinchan 🕺</div>
+        </div>
+
+        <!-- VS / Party Badge -->
+        <div style="font-family: 'Titan One', cursive; font-size: 1.4rem; color: #ff3366; text-shadow: 1px 1px 0 #fff; animation: bounceBadge 1.5s infinite alternate;">
+          🎂<br><span style="font-size: 0.9rem; color: #2d3748;">GATE</span>
+        </div>
+
+        <!-- Doraemon -->
+        <div class="mascot-item mascot-doraemon" id="mascot-doraemon" title="Tap Doraemon for 22nd century wisdom!">
+          <div class="mascot-speech-bubble-mini" style="background: #bae6fd;">Boku Doraemon! 🐱</div>
+          <div class="mascot-avatar-circle">
+            <img src="assets/doraemon_welcome.jpg" alt="Doraemon Welcome">
+          </div>
+          <div class="mascot-label-badge">Doraemon 🚁</div>
+        </div>
+
+      </div>
+
+      <!-- COMIC SPEECH DIALOGUE BUBBLE -->
+      <div class="speech-bubble">
+        <p id="shinchan-speech-text">
+          Oi oi oi! Wait right there! 🤨 I am <strong>Nohara Shinnosuke</strong>! <strong>Sufiyan</strong> told me today is the birthday of the coolest girl ever, <strong>Ritu Suparna (our dearest Supuu)</strong>! Should I let you open this secret website or NOT?! 🎂✨
+        </p>
+      </div>
+
+      <!-- INTERACTIVE FEATURE TABS -->
+      <div class="gate-nav-tabs">
+        <button class="gate-tab-btn active" onclick="switchGateTab('decision')">🚪 Open Door</button>
+        <button class="gate-tab-btn" onclick="switchGateTab('digitallock')">🔐 Digital Lock</button>
+        <button class="gate-tab-btn" onclick="switchGateTab('scanner')">🖐️ VIP Scanner</button>
+        <button class="gate-tab-btn" onclick="switchGateTab('bribe')">🍪 Bribe Shinchan</button>
+        <button class="gate-tab-btn" onclick="switchGateTab('soundboard')">🎙️ Soundboard</button>
+      </div>
+
+      <!-- TAB 1: DECISION (YES VS DODGING NO BUTTON) -->
+      <div id="tab-decision" class="gate-tab-content active">
+        <div class="gate-buttons">
+          <button id="btn-gate-yes" class="btn-gate btn-gate-yes">
+            <span>YES! Open Supuu's Party! 🎂🎉</span>
+          </button>
+          <button id="btn-gate-no" class="btn-gate btn-gate-no">
+            <span>NO, don't open! 🏃‍♂️❌</span>
+          </button>
+        </div>
+        <div style="margin-top: 1.1rem; text-align: center;">
+          <button class="digital-lock-shortcut-pill" onclick="switchGateTab('digitallock')">
+            <span>🔐 Or Enter Secret Digital Lock Password / PIN &rarr;</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- TAB 2: 22nd CENTURY DIGITAL VAULT PASSCODE LOCK -->
+      <div id="tab-digitallock" class="gate-tab-content">
+        <div class="digital-lock-card">
+          <div class="lock-header">
+            <div class="lock-icon-spin" id="lock-icon-status">🔒</div>
+            <div>
+              <div class="lock-title">22ND CENTURY CYBER VAULT</div>
+              <div class="lock-subtitle">Enter Secret Birthday Passcode or PIN to Unlock</div>
+            </div>
+          </div>
+
+          <!-- LCD Digital Display Screen -->
+          <div class="lcd-screen" id="digital-lock-lcd">
+            <div class="lcd-status-bar">
+              <span class="lcd-dot"></span>
+              <span id="lcd-status-badge">SECURITY: 4-6 DIGIT PIN OR KEYWORD</span>
+              <button class="lcd-mask-toggle" onclick="togglePasswordMask()" title="Toggle character mask" id="mask-toggle-btn">👁️ Show</button>
+            </div>
+            
+            <div class="lcd-display-content">
+              <span class="lcd-label">CODE:</span>
+              <div class="lcd-digits-container" id="lcd-digits-container">
+                <span class="lcd-placeholder">ENTER CODE...</span>
+              </div>
+              <span class="lcd-cursor">_</span>
+            </div>
+
+            <!-- Direct text input for physical or mobile typing -->
+            <input type="text" id="digital-lock-input" class="digital-lock-hidden-input" maxlength="20" autocomplete="off" spellcheck="false" placeholder="Type password or tap keypad...">
+            
+            <div class="lcd-feedback-msg" id="lcd-feedback-msg">
+              Status: Ready. Default: <strong style="color: #fde047;">SUPUU</strong> or PIN <strong style="color: #fde047;">1810</strong>
+            </div>
+          </div>
+
+          <!-- Keypad Grid -->
+          <div class="keypad-grid">
+            <button class="keypad-btn" onclick="pressDigitalKey('1')">1</button>
+            <button class="keypad-btn" onclick="pressDigitalKey('2')">2</button>
+            <button class="keypad-btn" onclick="pressDigitalKey('3')">3</button>
+
+            <button class="keypad-btn" onclick="pressDigitalKey('4')">4</button>
+            <button class="keypad-btn" onclick="pressDigitalKey('5')">5</button>
+            <button class="keypad-btn" onclick="pressDigitalKey('6')">6</button>
+
+            <button class="keypad-btn" onclick="pressDigitalKey('7')">7</button>
+            <button class="keypad-btn" onclick="pressDigitalKey('8')">8</button>
+            <button class="keypad-btn" onclick="pressDigitalKey('9')">9</button>
+
+            <button class="keypad-btn keypad-btn-fn" onclick="clearDigitalLock()">CLR</button>
+            <button class="keypad-btn" onclick="pressDigitalKey('0')">0</button>
+            <button class="keypad-btn keypad-btn-fn" onclick="backspaceDigitalLock()">⌫</button>
+          </div>
+
+          <!-- Quick Keyword Chips -->
+          <div class="quick-passwords-bar">
+            <span style="font-size: 0.8rem; font-weight: 700; color: #cbd5e1; margin-right: 4px;">Quick Word Codes:</span>
+            <button class="quick-code-chip" onclick="insertQuickCode('SUPUU')">✨ SUPUU</button>
+            <button class="quick-code-chip" onclick="insertQuickCode('1810')">🎂 1810</button>
+            <button class="quick-code-chip" onclick="insertQuickCode('1234')">🔑 1234</button>
+          </div>
+
+          <!-- Action Buttons Bar -->
+          <div class="lock-actions-row">
+            <button class="btn-lock-hint" onclick="revealPasscodeHint()">
+              <span>💡 Password Hint</span>
+            </button>
+            <button class="btn-lock-unlock" onclick="submitDigitalLockPasscode()">
+              <span>🔓 UNLOCK NOW</span>
+            </button>
+          </div>
+
+          <p class="lock-hint-box" id="lock-hint-box" style="display: none;">
+            🤫 <strong>Shinchan whispers:</strong> "Sufiyan set the secret password as <strong>SUPUU</strong> (or try PIN <strong>1810</strong> or <strong>1234</strong>)! Tap '✨ SUPUU' or type it to enter!" 🍰
+          </p>
+        </div>
+      </div>
+
+      <!-- TAB 2: BIOMETRIC VIP THUMBPRINT SCANNER -->
+      <div id="tab-scanner" class="gate-tab-content">
+        <div class="scanner-box" id="scanner-box">
+          <div class="scanner-pad" id="scanner-pad" title="Press & hold to scan thumbprint!">
+            <div class="scanner-laser"></div>
+            <span>🖐️</span>
+          </div>
+          <div style="font-weight: 700; font-size: 1.1rem; color: #fff;">
+            PRESS & HOLD FINGERPRINT TO VERIFY SUPUU
+          </div>
+          <div class="scan-progress-bar-bg">
+            <div class="scan-progress-fill" id="scan-progress-fill"></div>
+          </div>
+          <div class="scan-status-text" id="scan-status-text">
+            Status: Ready for Biometric Scan...
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 3: CHOCOBI BRIBE GAME -->
+      <div id="tab-bribe" class="gate-tab-content">
+        <div class="bribe-box">
+          <div style="font-weight: 700; font-size: 1.05rem; color: #92400e;">
+            Shinchan says: <em>"Give me 3 Chocobi cookies and I'll open the party instantly!"</em>
+          </div>
+          <div class="cookie-shelf">
+            <span class="cookie-slot" id="cookie-1">🍫</span>
+            <span class="cookie-slot" id="cookie-2">🍫</span>
+            <span class="cookie-slot" id="cookie-3">🍫</span>
+          </div>
+          <button class="btn-feed-cookie" id="btn-feed-cookie" onclick="feedShinchanCookie()">
+            <span>Feed a Chocobi 🍪 (+1 Snack)</span>
+          </button>
+          <p id="bribe-status-text" style="font-weight: 700; color: #b45309; margin-top: 0.6rem; font-size: 0.95rem;">
+            Snack meter: 0 / 3 Chocobi fed
+          </p>
+        </div>
+      </div>
+
+      <!-- TAB 4: CARTOON SOUNDBOARD -->
+      <div id="tab-soundboard" class="gate-tab-content">
+        <div class="firstpage-soundboard">
+          <button class="sound-chip-btn" onclick="playShinchanVoiceSample()">
+            <span>🎙️ Shinchan Voice</span>
+          </button>
+          <button class="sound-chip-btn" onclick="playDoraemonVoiceSample()">
+            <span>🐱 Doraemon Voice</span>
+          </button>
+          <button class="sound-chip-btn" onclick="playBuriBuriBeatSample()">
+            <span>🕺 Buri Buri Beat</span>
+          </button>
+          <button class="sound-chip-btn" onclick="playLaserSound(); launchConfettiBurst(window.innerWidth/2, window.innerHeight*0.3);">
+            <span>⚡ Action Kamen Beam</span>
+          </button>
+        </div>
+      </div>
+
+      <p class="shinchan-mini-quote">
+        💡 <em>Try touching the Thumbprint Scanner, feeding Shinchan snacks, or catching the "NO" button!</em>
+      </p>
+    </div>
+  </div>
+
+  <!-- ANYWHERE DOOR 3D PORTAL OVERLAY (TRANSITION) -->
+  <div id="anywhere-door-portal" class="anywhere-door-portal">
+    <div class="door-frame-3d">
+      <div class="door-light-beam"></div>
+      <div class="door-leaf-3d" id="door-leaf-3d">
+        <div class="door-knob"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================
+       TOP STICKY NAVBAR & AUDIO CONTROLS
+  ======================================================== -->
+  <header class="top-header">
+    <nav class="nav-bar">
+      <div class="nav-logo">
+        <span>🎂</span>
+        <span>Supuu's Birthday Bash</span>
+      </div>
+
+      <div class="nav-controls">
+        <button id="music-toggle" class="chip-btn chip-music" title="Toggle Happy Birthday Soundtrack">
+          <span class="music-equalizer">
+            <span class="eq-bar"></span>
+            <span class="eq-bar"></span>
+            <span class="eq-bar"></span>
+          </span>
+          <span id="music-toggle-text">Play Song 🎶</span>
+        </button>
+
+        <button class="chip-btn" onclick="launchMassiveConfetti()" title="Launch Confetti Cannon">
+          <span>🎉 Confetti!</span>
+        </button>
+
+        <a href="#feelings-section" class="chip-btn" style="background: #fce7f3; color: #be185d; text-decoration: none;" title="Go to Share Our Feelings">
+          <span>💖 Feelings Wall</span>
+        </a>
+
+        <a href="#goodnight-section" class="chip-btn" style="background: #1e1b4b; color: #fde047; text-decoration: none;" title="Go to Good Night & Wishes">
+          <span>🌙 Good Night</span>
+        </a>
+
+        <button class="chip-btn" onclick="openEditNameModal()" title="Personalize Names">
+          <span>✏️ Edit Names</span>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- ========================================================
+       MAIN CELEBRATION CONTENT
+  ======================================================== -->
+  <main class="main-wrapper">
+
+    <!-- HERO CELEBRATION BANNER -->
+    <section class="hero-banner-card">
+      <div class="banner-img-container">
+        <img src="assets/celebration_banner.jpg" alt="Shinchan and Doraemon Birthday Celebration">
+        <div class="banner-overlay-text">
+          <h1 class="celebration-title">
+            HAPPY BIRTHDAY, <span class="friend-name-display">Ritu Suparna</span>! 🌟
+          </h1>
+          <div class="celebration-subtitle">
+            <span>Wishing our sweetest <span class="friend-nickname-display">Supuu</span> a magical year full of smiles, happiness & endless treats!</span>
+            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.4rem;">
+              <span class="name-pill" onclick="openEditNameModal()">
+                <span>👑 Birthday Girl: <span class="friend-nickname-display">Supuu</span></span>
+                <span>✏️</span>
+              </span>
+              <span class="name-pill" style="background: #3b82f6;">
+                <span>💌 From: <span class="sender-name-display">Sufiyan</span> 🌟</span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-quick-actions">
+        <div class="action-quote">
+          🎈 "Dear Supuu, may your life always be as fun as Shinchan and full of Doraemon's magic!" — Sufiyan
+        </div>
+        <button class="btn-party" onclick="openWebsiteCelebration()">
+          <span>🎊 Celebrate Together!</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- CARTOON DUO INTERACTIVE SHOWCASE -->
+    <section class="cartoon-duo-grid">
+      
+      <!-- SHINCHAN'S CORNER -->
+      <div class="character-card shinchan-theme" id="shinchan-card">
+        <div class="char-header">
+          <div class="char-avatar-frame">
+            <img src="assets/shinchan_party.jpg" alt="Party Shinchan">
+          </div>
+          <div class="char-info">
+            <h3>Nohara Shinnosuke</h3>
+            <div class="char-tagline">Chief Mischief Officer & Party Hero 🦸‍♂️</div>
+          </div>
+        </div>
+
+        <div class="dialogue-box">
+          "Heyyy <span class="friend-nickname-display">Supuu</span>! Don't worry about growing one year older — you'll always be the coolest birthday girl! <span class="sender-name-display">Sufiyan</span> told me you deserve 10,000 Chocobi boxes today! Let's eat all the sweets and party with Action Kamen!"
+        </div>
+
+        <div class="char-interactive-buttons">
+          <button class="btn-fun" onclick="triggerBuriBuriDance()">
+            <span>🕺 Buri Buri Dance</span>
+          </button>
+          <button class="btn-fun" onclick="triggerActionKamenBeam()">
+            <span>⚡ Action Kamen Beam</span>
+          </button>
+          <button class="btn-fun" onclick="petShiroDog()">
+            <span>🐶 Pet Shiro</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- DORAEMON'S CORNER -->
+      <div class="character-card doraemon-theme" id="doraemon-card">
+        <div class="char-header">
+          <div class="char-avatar-frame">
+            <img src="assets/doraemon_party.jpg" alt="Party Doraemon">
+          </div>
+          <div class="char-info">
+            <h3>Doraemon 2112</h3>
+            <div class="char-tagline">22nd-Century Magical Cat Robot 🐱🔔</div>
+          </div>
+        </div>
+
+        <div class="dialogue-box">
+          "Boku Doraemon! Wishing you the happiest and sweetest birthday, <span class="friend-name-display">Ritu Suparna</span> (<span class="friend-nickname-display">Supuu</span>)! <span class="sender-name-display">Sufiyan</span> asked me to open my 4D Pocket just for you today — whatever wish you make, may it fly as high as my Take-Copter!"
+        </div>
+
+        <div class="char-interactive-buttons">
+          <button class="btn-fun" onclick="playGadgetChime(); launchMassiveConfetti();">
+            <span>🔔 Ring Doraemon's Bell</span>
+          </button>
+          <button class="btn-fun" onclick="speakShinchanVoice('Doraemon says: Happy Birthday Supuu, eat lots of dorayaki!')">
+            <span>🎙️ Doraemon's Voice</span>
+          </button>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- INTERACTIVE 3D BIRTHDAY CAKE & WISH MAKER -->
+    <section class="cake-section-card">
+      <h2 class="section-title">🎂 The Grand Birthday Cake for Supuu 🎂</h2>
+      <p class="section-desc">
+        Make a secret wish in your heart, Supuu, then click the button below to blow out the magical candles!
+      </p>
+
+      <div class="cake-stage" id="cake-stage">
+        <!-- Candles -->
+        <div class="candles-row">
+          <div class="candle">
+            <div class="candle-flame"></div>
+            <div class="smoke-puff"></div>
+          </div>
+          <div class="candle">
+            <div class="candle-flame"></div>
+            <div class="smoke-puff"></div>
+          </div>
+          <div class="candle">
+            <div class="candle-flame"></div>
+            <div class="smoke-puff"></div>
+          </div>
+          <div class="candle">
+            <div class="candle-flame"></div>
+            <div class="smoke-puff"></div>
+          </div>
+        </div>
+
+        <!-- Top Tier -->
+        <div class="cake-tier cake-tier-top">
+          <div class="cake-frosting"></div>
+          <div class="strawberry" style="left: 20px;"></div>
+          <div class="strawberry" style="left: 65px;"></div>
+          <div class="strawberry" style="left: 110px;"></div>
+        </div>
+
+        <!-- Bottom Tier -->
+        <div class="cake-tier cake-tier-bottom">
+          <div class="cake-frosting"></div>
+          <div class="strawberry" style="left: 30px;"></div>
+          <div class="strawberry" style="left: 100px;"></div>
+          <div class="strawberry" style="left: 170px;"></div>
+        </div>
+
+        <!-- Cake Plate -->
+        <div class="cake-plate"></div>
+      </div>
+
+      <div class="cake-controls">
+        <button id="btn-blow-candles" class="btn-blow">
+          <span>💨 Make a Wish & Blow Candles!</span>
+        </button>
+      </div>
+
+      <div id="wish-status-banner" class="wish-status-banner"></div>
+    </section>
+
+    <!-- DORAEMON'S 4D GADGET POCKET -->
+    <section class="gadget-section">
+      <h2 class="section-title" style="color: #0284c7;">✨ Doraemon's 4D Magical Pocket for Supuu ✨</h2>
+      <p class="section-desc">
+        Click any of Doraemon's secret gadgets to unwrap special birthday blessings from Sufiyan!
+      </p>
+
+      <div class="gadgets-grid">
+        <div class="gadget-card" data-gadget="anywhere-door">
+          <div class="gadget-icon">🚪</div>
+          <div class="gadget-name">Anywhere Door</div>
+          <div class="gadget-desc">Dokodemo Door to travel anywhere Supuu desires!</div>
+          <span class="gadget-badge">Click to Unlock</span>
+        </div>
+
+        <div class="gadget-card" data-gadget="bamboo-copter">
+          <div class="gadget-icon">🚁</div>
+          <div class="gadget-name">Bamboo-Copter</div>
+          <div class="gadget-desc">Fly high above all stress and touch your dreams!</div>
+          <span class="gadget-badge">Click to Unlock</span>
+        </div>
+
+        <div class="gadget-card" data-gadget="memory-bread">
+          <div class="gadget-icon">🍞</div>
+          <div class="gadget-name">Memory Bread</div>
+          <div class="gadget-desc">Ace every test, interview, and cherish happy memories!</div>
+          <span class="gadget-badge">Click to Unlock</span>
+        </div>
+
+        <div class="gadget-card" data-gadget="big-light">
+          <div class="gadget-icon">🔦</div>
+          <div class="gadget-name">Big & Small Light</div>
+          <div class="gadget-desc">Shrink your troubles, magnify your joy and wealth!</div>
+          <span class="gadget-badge">Click to Unlock</span>
+        </div>
+
+        <div class="gadget-card" data-gadget="time-machine">
+          <div class="gadget-icon">⏳</div>
+          <div class="gadget-name">Time Machine</div>
+          <div class="gadget-desc">Rewind to eat another slice of birthday cake!</div>
+          <span class="gadget-badge">Click to Unlock</span>
+        </div>
+
+        <div class="gadget-card" data-gadget="dorayaki-plate">
+          <div class="gadget-icon">🥞</div>
+          <div class="gadget-name">Dorayaki Mountain</div>
+          <div class="gadget-desc">Endless delicious sweets for birthday girl Supuu!</div>
+          <span class="gadget-badge">Click to Unlock</span>
+        </div>
+      </div>
+
+      <div id="gadget-blessing-box" class="dialogue-box" style="margin-top: 2rem; display: none; background: #e0f2fe; border-color: #0284c7;"></div>
+    </section>
+
+    <!-- CHOCOBI & DORAYAKI MINI-GAME -->
+    <section class="minigame-card">
+      <h2 class="section-title" style="color: #ea580c;">🎮 Birthday Snack Catcher Mini-Game 🎮</h2>
+      <p class="section-desc">
+        Catch falling Dorayaki 🥞 and Chocobi 🍫 for <span class="friend-nickname-display">Supuu</span>'s party! Watch out for green capsicums 🫑!
+      </p>
+
+      <div class="game-hud">
+        <div class="score-chip">Score: <span id="game-score">0</span> pts</div>
+        <div class="timer-chip">Time: <span id="game-timer">25s</span></div>
+      </div>
+
+      <div class="game-canvas-wrapper">
+        <canvas id="game-canvas"></canvas>
+        <div id="game-overlay" class="game-overlay-msg">
+          <h3>🎮 READY TO PLAY FOR SUPUU? 🎮</h3>
+          <p style="font-size: 1.15rem; margin-bottom: 1.2rem; max-width: 400px;">
+            Move the basket to collect party treats for birthday girl Supuu!
+          </p>
+          <button id="start-game-btn" class="btn-party">Start Game 🚀</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- HEARTFELT FRIENDSHIP LETTER -->
+    <section class="letter-section">
+      <h2 class="section-title">💌 Secret Friendship Letter from Sufiyan 💌</h2>
+      <p class="section-desc">
+        Click the wax seal below to open your personalized birthday message!
+      </p>
+
+      <div class="envelope-wrapper" id="friendship-envelope">
+        <div class="envelope-box">
+          <div class="wax-seal">💖</div>
+          <h3 style="font-family: 'Titan One', cursive; font-size: 1.4rem; color: #1e293b;">
+            To: The Best Birthday Girl, <span class="friend-name-display">Ritu Suparna</span> (<span class="friend-nickname-display">Supuu</span>) 🌸
+          </h3>
+          <p style="color: #64748b; font-weight: 700; margin-top: 0.5rem;">
+            (Tap here to unseal the letter)
+          </p>
+
+          <div class="letter-content" id="letter-content">
+            <p><strong>Dearest <span class="friend-name-display">Ritu Suparna</span> (<span class="friend-nickname-display">Supuu</span>),</strong></p>
+            <br>
+            <p>
+              Happy Birthday to one of the most incredible, kind, and wonderful friends in the world! 🎂✨
+            </p>
+            <br>
+            <p>
+              Just like <strong>Shinchan</strong> never runs out of crazy mischief and infectious laughs, and <strong>Doraemon</strong> always stands by his best friend with magical surprises from the 22nd century — I wanted to make sure your special day brings a huge, genuine smile to your face!
+            </p>
+            <br>
+            <p>
+              Thank you for being such an awesome friend, Supuu. May this year shower you with boundless happiness, great health, endless laughter, grand success in everything you pursue, and all the delicious treats and food in the world!
+            </p>
+            <br>
+            <p>
+              Always keep shining bright and laughing freely! Have the happiest, most memorable birthday ever!
+            </p>
+            <br>
+            <div class="letter-sign">
+              With lots of love, best wishes & friendship, ❤️<br>
+              <strong>— <span class="sender-name-display">Sufiyan</span></strong> 🌟<br>
+              <span style="font-size: 0.95rem; color: #64748b;">(Certified by Shinchan & Doraemon Squad 🦸‍♂️🐱)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         SHARE OUR FEELINGS & MEMORIES SECTION
+    ======================================================== -->
+    <section id="feelings-section" class="feelings-section">
+      <h2 class="section-title" style="color: #e11d48;">💖 Heart-to-Heart: Share Our Feelings & Memories 💖</h2>
+      <p class="section-desc">
+        A special, honest space for heartfelt thoughts, shared memories, and words from the heart.
+      </p>
+
+      <!-- 1. SUFIYAN'S FRIENDSHIP DIARY (INTERACTIVE REFLECTIONS) -->
+      <div class="feelings-diary-card">
+        <h3 style="font-family: 'Titan One', cursive; font-size: 1.5rem; color: #be185d; margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.5rem;">
+          <span>📖 Sufiyan's Friendship Reflections</span>
+        </h3>
+
+        <!-- Diary Navigation Tabs -->
+        <div class="diary-tabs">
+          <button class="diary-tab-btn active" onclick="switchDiaryTab('special')">🌟 Why You're Special</button>
+          <button class="diary-tab-btn" onclick="switchDiaryTab('bond')">🤝 Our Unspoken Bond</button>
+          <button class="diary-tab-btn" onclick="switchDiaryTab('wishes')">💫 Wishes for Your Future</button>
+          <button class="diary-tab-btn" onclick="switchDiaryTab('promise')">🦸‍♂️ The Cartoon Promise</button>
+        </div>
+
+        <!-- Tab 1: Why You're Special -->
+        <div id="diary-special" class="diary-page-content active">
+          <p>
+            Dear <span class="friend-nickname-display">Supuu</span>, in a world where people often wear masks, you are one of the most wonderfully authentic and warm-hearted souls I know.
+          </p>
+          <div class="diary-quote-callout">
+            "Your kindness isn't just something you do — it's who you are. Seeing you smile effortlessly brightens up even the most exhausting days."
+          </div>
+          <p>
+            You have a rare ability to make people around you feel comfortable, valued, and heard. Never let any bad day or unkind words make you doubt the incredible value and beauty you bring into the lives of your loved ones!
+          </p>
+        </div>
+
+        <!-- Tab 2: Our Unspoken Bond -->
+        <div id="diary-bond" class="diary-page-content">
+          <p>
+            True friendship isn't about talking every single second; it's about knowing that whenever life throws challenges our way, we have someone who understands us without needing a thousand explanations.
+          </p>
+          <div class="diary-quote-callout">
+            "We have shared laughs that literally hurt our stomachs, silly inside jokes, and quiet moments of understanding. I am deeply grateful for our friendship."
+          </div>
+          <p>
+            Thank you for being someone I can always respect, trust, and cheer for. Having you as a friend makes the journey of life so much richer and more fun!
+          </p>
+        </div>
+
+        <!-- Tab 3: Wishes for Your Future -->
+        <div id="diary-wishes" class="diary-page-content">
+          <p>
+            As you celebrate another year of life, here is my silent prayer and wish for you:
+          </p>
+          <ul style="margin: 0.8rem 1.5rem; font-weight: 600; line-height: 1.8;">
+            <li>✨ May you never lose your childlike spark, curiosity, and wonder.</li>
+            <li>🌸 May self-doubt vanish and be replaced with unstoppable courage and peace of mind.</li>
+            <li>💼 May every goal, career ambition, and dream you hold close to your heart turn into grand success.</li>
+            <li>🥞 And of course, may you always have unlimited good food, chocolates, and treats!</li>
+          </ul>
+        </div>
+
+        <!-- Tab 4: The Cartoon Promise -->
+        <div id="diary-promise" class="diary-page-content">
+          <p>
+            Just like Shinchan and Action Kamen, the fun, chaos, and playful roasts between us will never stop! And just like Doraemon is always ready with his pocket to support his closest buddy, consider me always in your corner.
+          </p>
+          <div class="diary-quote-callout" style="background: #e0f2fe; border-color: #0284c7; color: #0369a1;">
+            "Whenever you need someone to celebrate your wins, listen to your rants, or just eat cake with — I am always just one message away!" — Sufiyan
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. LIVE STICKY NOTE FEELINGS WALL -->
+      <div class="sticky-board-wrapper">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
+          <div>
+            <h3 style="font-family: 'Titan One', cursive; font-size: 1.5rem; color: #9a3412;">
+              📌 Live Friendship Sticky Notes Wall
+            </h3>
+            <p style="font-size: 0.95rem; font-weight: 600; color: #7c2d12;">
+              Read sweet notes from Sufiyan, or write and pin your own feelings to the board!
+            </p>
+          </div>
+          <button class="chip-btn" onclick="document.getElementById('note-input-text').focus()" style="background: #fff;">
+            <span>✍️ Pin a New Note</span>
+          </button>
+        </div>
+
+        <!-- Pinned Sticky Notes Grid -->
+        <div class="sticky-notes-grid" id="sticky-notes-grid">
+          <!-- Dynamically populated & pre-loaded notes -->
+        </div>
+
+        <!-- Add Your Feeling Form -->
+        <div class="post-note-box">
+          <h4 style="font-family: 'Titan One', cursive; color: #ff3366; font-size: 1.15rem; margin-bottom: 0.6rem;">
+            💌 Leave a Note / Share What's on Your Mind:
+          </h4>
+          <textarea id="note-input-text" class="note-textarea" placeholder="Write a memory, a feeling, a wish, or a sweet reply here..."></textarea>
+          
+          <div class="note-form-controls">
+            <div style="display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap;">
+              <span style="font-weight: 700; font-size: 0.88rem; color: #475569;">Note Color:</span>
+              <div class="color-picker-row">
+                <span class="color-dot selected" data-color="#fef08a" style="background: #fef08a;" onclick="selectNoteColor(this, '#fef08a')"></span>
+                <span class="color-dot" data-color="#fbcfe8" style="background: #fbcfe8;" onclick="selectNoteColor(this, '#fbcfe8')"></span>
+                <span class="color-dot" data-color="#bae6fd" style="background: #bae6fd;" onclick="selectNoteColor(this, '#bae6fd')"></span>
+                <span class="color-dot" data-color="#bbf7d0" style="background: #bbf7d0;" onclick="selectNoteColor(this, '#bbf7d0')"></span>
+                <span class="color-dot" data-color="#fed7aa" style="background: #fed7aa;" onclick="selectNoteColor(this, '#fed7aa')"></span>
+              </div>
+            </div>
+
+            <button class="btn-party" style="font-size: 0.95rem; padding: 0.6rem 1.4rem;" onclick="postNewFeelingNote()">
+              <span>📌 Pin Note to Wall</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. FEELINGS & MOOD CAPSULE -->
+      <div class="mood-capsule-card">
+        <h3 style="font-family: 'Titan One', cursive; font-size: 1.5rem; color: #15803d; margin-bottom: 0.4rem;">
+          🎭 How are you feeling right now, <span class="friend-nickname-display">Supuu</span>?
+        </h3>
+        <p style="font-weight: 600; color: #166534; font-size: 1rem;">
+          Tap your current emotion to receive an instant message from Shinchan, Doraemon & Sufiyan!
+        </p>
+
+        <div class="mood-buttons-grid">
+          <button class="mood-chip-btn" onclick="triggerMoodResponse('emotional')">
+            <span>🥹 Emotional & Touched</span>
+          </button>
+          <button class="mood-chip-btn" onclick="triggerMoodResponse('hyped')">
+            <span>🥳 Super Hyped & Excited</span>
+          </button>
+          <button class="mood-chip-btn" onclick="triggerMoodResponse('grateful')">
+            <span>😌 Peaceful & Grateful</span>
+          </button>
+          <button class="mood-chip-btn" onclick="triggerMoodResponse('comfort')">
+            <span>🥺 Tired / Need Comfort</span>
+          </button>
+          <button class="mood-chip-btn" onclick="triggerMoodResponse('hungry')">
+            <span>😋 Ready for Cake & Treats</span>
+          </button>
+        </div>
+
+        <div id="mood-response-box" class="mood-response-box">
+          <!-- Populated dynamically with animation -->
+        </div>
+      </div>
+
+      <!-- 4. AUDIO CASSETTE: SUFIYAN'S VOICE MESSAGE SIMULATION -->
+      <div class="cassette-box" id="cassette-player">
+        <div class="cassette-reels">
+          <div class="reel-circle">🎙️</div>
+          <div class="reel-circle">🎵</div>
+        </div>
+
+        <div style="flex: 1; min-width: 240px;">
+          <h4 style="font-family: 'Titan One', cursive; font-size: 1.25rem; color: #38bdf8; margin-bottom: 0.2rem;">
+            📻 Sufiyan's Voice Note for Supuu
+          </h4>
+          <p id="cassette-status" style="font-size: 0.95rem; color: #94a3b8; font-weight: 600;">
+            Track: "A Heartfelt Birthday Wish for Supuu" (Duration: 100% Pure Friendship)
+          </p>
+        </div>
+
+        <button class="chip-btn" id="btn-play-voice-note" onclick="playSufiyanVoiceNote()" style="background: linear-gradient(135deg, #0ea5e9, #0284c7); color: #fff; padding: 0.7rem 1.6rem;">
+          <span>▶️ Listen to Message</span>
+        </button>
+      </div>
+
+      <!-- 5. DIRECT WHATSAPP FEELINGS MESSENGER -->
+      <div class="whatsapp-feelings-card">
+        <div class="whatsapp-content">
+          <h3>💬 Want to share your thoughts directly with Sufiyan?</h3>
+          <p style="font-weight: 600; font-size: 1rem; opacity: 0.95;">
+            One tap sends a pre-composed, heartwarming birthday thank-you note straight to Sufiyan's WhatsApp!
+          </p>
+        </div>
+        <a id="whatsapp-direct-link" href="https://api.whatsapp.com/send?text=Hey%20Sufiyan!%20%F0%9F%92%96%20I%20just%20explored%20the%20Shinchan%20%26%20Doraemon%20birthday%20surprise%20website%20you%20made%20for%20me!%20It%20touched%20my%20heart%20so%20much%20and%20made%20my%20birthday%20unforgettable...%20Thank%20you%20for%20being%20such%20an%20incredible%20friend!%20%F0%9F%A5%B0%E2%9C%A8" target="_blank" class="btn-whatsapp-direct">
+          <span>📲 Message Sufiyan on WhatsApp</span>
+        </a>
+      </div>
+
+    </section>
+
+    <!-- POLAROID MEMORY GALLERY -->
+    <section class="gallery-section">
+      <h2 class="section-title" style="color: #9333ea;">📸 Cartoon Birthday Album 📸</h2>
+      <p class="section-desc">
+        Snapshot memories celebrating Supuu's wonderful birthday!
+      </p>
+
+      <div class="polaroid-grid">
+        <div class="polaroid-card">
+          <div class="tape-deco"></div>
+          <div class="polaroid-photo-box">
+            <img src="assets/shinchan_party.jpg" alt="Shinchan Birthday">
+          </div>
+          <div class="polaroid-caption">🎉 Shinchan dancing for Supuu!</div>
+        </div>
+
+        <div class="polaroid-card">
+          <div class="tape-deco"></div>
+          <div class="polaroid-photo-box">
+            <img src="assets/doraemon_welcome.jpg" alt="Doraemon Welcome">
+          </div>
+          <div class="polaroid-caption">🚁 Doraemon bringing Sufiyan's Surprise!</div>
+        </div>
+
+        <div class="polaroid-card">
+          <div class="tape-deco"></div>
+          <div class="polaroid-photo-box">
+            <img src="assets/celebration_banner.jpg" alt="Shinchan & Doraemon Duo">
+          </div>
+          <div class="polaroid-caption">🎂 The Greatest Birthday Crew for Ritu!</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         HAPPY ENDING: GOOD NIGHT & ENDLESS WISHES FOR SUPUU
+    ======================================================== -->
+    <section id="goodnight-section" class="goodnight-section">
+      
+      <!-- Night Sky Banner with Sleeping Shinchan & Doraemon -->
+      <div class="goodnight-banner-box">
+        <img src="assets/goodnight.jpg" alt="Good Night Shinchan and Doraemon Sleeping on Crescent Moon">
+      </div>
+
+      <div class="night-stars-header">
+        <h2 class="night-title">🌙 Happy Ending: Good Night & Sweet Dreams, <span class="friend-nickname-display">Supuu</span> 🌙</h2>
+        <p class="night-subtitle">
+          The party songs have softened, the candles are resting, and the midnight stars are shining bright. As this unforgettable birthday comes to a close, here are endless starlit wishes to guide you into dreamland.
+        </p>
+      </div>
+
+      <!-- Sleepy Mascots Dialogue -->
+      <div class="sleepy-duo-card">
+        <div class="sleepy-item">
+          <div class="sleepy-avatar">😴</div>
+          <div class="sleepy-text">
+            <strong>Shinchan (Sleepy Pajamas):</strong><br>
+            "Haaaawwwn... Oyasumi, <span class="friend-nickname-display">Supuu</span>! I danced the Buri Buri dance so much my legs are jelly! Even Action Kamen is asleep with his blanket... Sweet dreams, birthday queen! Zzz..."
+          </div>
+        </div>
+
+        <div class="sleepy-item">
+          <div class="sleepy-avatar">🌙</div>
+          <div class="sleepy-text">
+            <strong>Doraemon (Curled on Moon):</strong><br>
+            "Boku Doraemon... The 22nd-century <em>Sweet Dreams Pillow</em> is on. Rest your tired eyes, <span class="friend-nickname-display">Supuu</span>. Let all worries fly away into the cosmos. Tomorrow begins your best year yet!"
+          </div>
+        </div>
+      </div>
+
+      <!-- Bedtime Controls & Lamp Switch -->
+      <div class="bedtime-controls-box">
+        <h3 style="font-family: 'Titan One', cursive; font-size: 1.35rem; color: #fde047; margin-bottom: 0.5rem;">
+          🛏️ Ready for Bedtime?
+        </h3>
+        <p style="color: #c7d2fe; font-size: 1rem; margin-bottom: 1.2rem; font-weight: 600;">
+          Click the magical night switch to dim the lights, start the soft music-box lullaby, and enter sweet dreams mode!
+        </p>
+        <button class="btn-bedtime-toggle" onclick="toggleBedtimeMode()">
+          <span>🌙 Turn Off Lights & Go to Sleep (Bedtime Mode)</span>
+        </button>
+      </div>
+
+      <!-- WISHES CONSTELLATION GRID (LOT OF WISHES!) -->
+      <div class="wishes-heading-area">
+        <div>
+          <h3 style="font-family: 'Titan One', cursive; font-size: 1.5rem; color: #fde047;">
+            ✨ Starlit Constellation of Wishes for <span class="friend-nickname-display">Supuu</span>
+          </h3>
+          <p style="color: #c7d2fe; font-size: 0.95rem; font-weight: 600;">
+            Every star carries a sincere blessing from Sufiyan's heart to yours:
+          </p>
+        </div>
+        <button class="chip-btn" onclick="catchShootingStarWish()" style="background: linear-gradient(135deg, #ffd700, #f59e0b); color: #1e1b4b; font-weight: 800;">
+          <span>🌠 Catch a Shooting Star (+1 Wish)</span>
+        </button>
+      </div>
+
+      <div class="wishes-grid" id="wishes-grid">
+        <div class="wish-card">
+          <span class="wish-icon">🕊️</span>
+          <div class="wish-title">1. Wish of Inner Peace</div>
+          <div class="wish-desc">May every worry of yesterday melt away, leaving your heart calm, light, and serene tonight.</div>
+        </div>
+
+        <div class="wish-card">
+          <span class="wish-icon">🌸</span>
+          <div class="wish-title">2. Wish of Endless Smiles</div>
+          <div class="wish-desc">May you wake up tomorrow morning to a brand new day full of reasons to laugh freely.</div>
+        </div>
+
+        <div class="wish-card">
+          <span class="wish-icon">💖</span>
+          <div class="wish-title">3. Wish of Self-Love</div>
+          <div class="wish-desc">Never forget how truly valuable, graceful, and irreplaceable you are to everyone around you.</div>
+        </div>
+
+        <div class="wish-card">
+          <span class="wish-icon">🚀</span>
+          <div class="wish-title">4. Wish of Success</div>
+          <div class="wish-desc">May every door of opportunity you knock on this year swing wide open with triumphant victory.</div>
+        </div>
+
+        <div class="wish-card">
+          <span class="wish-icon">💫</span>
+          <div class="wish-title">5. Wish of Radiant Health</div>
+          <div class="wish-desc">May vitality, strength, energy, and good health protect and accompany you in all your endeavors.</div>
+        </div>
+
+        <div class="wish-card">
+          <span class="wish-icon">🥞</span>
+          <div class="wish-title">6. Wish of Abundance</div>
+          <div class="wish-desc">May your days be blessed with delightful treats, chocolates, dorayaki, and warm comforting food.</div>
+        </div>
+
+        <div class="wish-card">
+          <span class="wish-icon">🤝</span>
+          <div class="wish-title">7. Wish of True Friendship</div>
+          <div class="wish-desc">May our bond remain unbreakable, fun, and genuine through every chapter life writes for us.</div>
+        </div>
+
+        <div class="wish-card">
+          <span class="wish-icon">🛡️</span>
+          <div class="wish-title">8. Wish of Protection</div>
+          <div class="wish-desc">May you always be shielded from hurt, negativity, and toxic energy wherever you travel.</div>
+        </div>
+
+        <div class="wish-card">
+          <span class="wish-icon">👑</span>
+          <div class="wish-title">9. Wish of Royal Confidence</div>
+          <div class="wish-desc">Always hold your head high with pride — you are the true queen of your own life story, Supuu!</div>
+        </div>
+
+        <div class="wish-card">
+          <span class="wish-icon">⏳</span>
+          <div class="wish-title">10. Wish of Golden Memories</div>
+          <div class="wish-desc">May this year become your all-time favorite age, packed with adventures and unforgettable joy.</div>
+        </div>
+
+        <div class="wish-card">
+          <span class="wish-icon">🌈</span>
+          <div class="wish-title">11. Wish of Pure Magic</div>
+          <div class="wish-desc">Whenever things feel tough, may unexpected miracles and pleasant surprises appear in your path.</div>
+        </div>
+
+        <div class="wish-card">
+          <span class="wish-icon">🌙</span>
+          <div class="wish-title">12. Wish of Sweetest Dreams</div>
+          <div class="wish-desc">Rest your eyes, sleep peacefully under the stars, and let the gentle universe hug you to sleep.</div>
+        </div>
+      </div>
+
+      <!-- Final Heartfelt Good Night Blessing from Sufiyan -->
+      <div style="background: rgba(255, 255, 255, 0.07); border: 2px dashed #fde047; border-radius: 24px; padding: 1.8rem; text-align: center; margin-top: 1rem;">
+        <h4 style="font-family: 'Titan One', cursive; font-size: 1.3rem; color: #fde047; margin-bottom: 0.5rem;">
+          💌 Good Night from Sufiyan
+        </h4>
+        <p style="font-size: 1.1rem; line-height: 1.7; color: #e0e7ff; max-width: 650px; margin: 0 auto;">
+          "Good night, <span class="friend-nickname-display">Supuu</span>. Thank you for letting me celebrate this special day with you. Seeing your smile today made everything worthwhile. Sleep tight, dream sweet, and wake up knowing that you are deeply cherished, respected, and loved."
+        </p>
+        <div style="margin-top: 1rem; font-family: 'Titan One', cursive; color: #f43f5e; font-size: 1.25rem;">
+          Forever Your Friend & Well-Wisher,<br>
+          <span style="color: #38bdf8;">— <span class="sender-name-display">Sufiyan</span></span> 🌟🌙
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ========================================================
+       MODAL: EDIT FRIEND'S NAME
+  ======================================================== -->
+  <div id="name-modal" class="modal-backdrop">
+    <div class="modal-box">
+      <h3 style="font-family: 'Titan One', cursive; font-size: 1.6rem; color: #ff3366;">
+        ✏️ Customize Names & Secret Password
+      </h3>
+      <p style="color: #64748b; font-weight: 600; margin-top: 0.5rem;">
+        Personalize the birthday girl's names and digital lock secret passcode!
+      </p>
+      
+      <div style="text-align: left; margin: 1.2rem 0 0.5rem;">
+        <label style="font-weight: 700; font-size: 0.9rem; color: #475569;">Birthday Girl Full Name:</label>
+        <input type="text" id="name-input" class="input-styled" style="margin: 0.4rem 0 0.8rem;" placeholder="e.g. Ritu Suparna">
+        
+        <label style="font-weight: 700; font-size: 0.9rem; color: #475569;">Nickname:</label>
+        <input type="text" id="nick-input" class="input-styled" style="margin: 0.4rem 0 0.8rem;" placeholder="e.g. Supuu">
+
+        <label style="font-weight: 700; font-size: 0.9rem; color: #475569;">Digital Lock Secret Password / PIN:</label>
+        <input type="text" id="passcode-input" class="input-styled" style="margin: 0.4rem 0 0.2rem;" placeholder="Current: SUPUU (or 1810)">
+        <small style="color: #64748b; font-size: 0.8rem; display: block;">(Word or PIN to unlock the 22nd century cyber vault!)</small>
+      </div>
+
+      <div style="display: flex; gap: 0.8rem; justify-content: center; margin-top: 1.2rem;">
+        <button class="btn-party" onclick="saveFriendName()">Save & Update 🌟</button>
+        <button class="chip-btn" onclick="closeEditNameModal()" style="padding: 0.8rem 1.4rem;">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FULLSCREEN BEDTIME COZY OVERLAY -->
+  <div id="bedtime-mode-overlay" class="bedtime-mode-overlay">
+    <div class="bedtime-card-content">
+      <div class="floating-moon-icon">🌙</div>
+      <h2 style="font-family: 'Titan One', cursive; font-size: 2.5rem; color: #fde047; margin-bottom: 0.8rem; text-shadow: 0 0 25px rgba(253, 224, 71, 0.6);">
+        Good Night, <span class="friend-nickname-display">Supuu</span>! 😴✨
+      </h2>
+      <p style="font-size: 1.2rem; line-height: 1.8; color: #c7d2fe; margin-bottom: 1.5rem;">
+        The party room is dark, the lullaby is softly playing, and the stars are guarding your sleep. Leave today with a happy heart. Tomorrow is full of new beginnings!
+      </p>
+      <div style="font-family: 'Titan One', cursive; font-size: 1.3rem; color: #f472b6; margin-bottom: 2rem;">
+        Sweet Dreams & Deep Sleep ❤️<br>
+        <span style="font-size: 1rem; color: #94a3b8;">— Shinchan, Doraemon & Sufiyan 💤</span>
+      </div>
+      <button class="btn-wake-up" onclick="toggleBedtimeMode()">
+        <span>💡 Turn On Lights / Wake Up</span>
+      </button>
+    </div>
+  </div>
+
+  <footer>
+    <p>Crafted with lots of ❤️, Chocobi & Dorayaki by <span class="sender-name-display">Sufiyan</span> for <span class="friend-name-display">Ritu Suparna</span> (<span class="friend-nickname-display">Supuu</span>)'s Birthday! 🎈</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
